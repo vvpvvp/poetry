@@ -8,7 +8,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "data": "base ./server/data.sh"
+    "data": "base ./server/config/data.sh"
   },
   "author": "",
   "license": "ISC",
