@@ -11,14 +11,12 @@
       <article>{{author.description}}</article>
       <div>
         <dl class="poetrylist">
+          <div class="poetrylist-desc">共{{poetrys.length}}首诗</div>
           <template v-for="p of poetrys">
             <dt>
               <nuxt-link :to="'/poetry/'+ p.id">{{p.title}}</nuxt-link>
             </dt>
           </template>
-          <dt v-if="poetrys.length==5">
-            <nuxt-link :to="'/authorall/'+ params.id">更多</nuxt-link>
-          </dt>
         </dl>
       </div>
     </div>
@@ -29,7 +27,7 @@ import axios from 'axios';
 export default {
   transition: 'bounce',
   asyncData({ params, error }) {
-    return axios.get(`http://localhost:3002/author?id=${params.id}`)
+    return axios.get(`http://localhost:3002/author?id=${params.id}&&size=5000`)
       .then((res) => {
         if (res.status == 200) {
           return { author: res.data.author, poetrys: res.data.poetrys, params: params };

@@ -10,9 +10,19 @@ const _453123c0 = () => import('/Users/alicia/Documents/develop/poetry/pages/ind
 
 const _f0bf02b4 = () => import('/Users/alicia/Documents/develop/poetry/pages/404.vue' /* webpackChunkName: "pages/404" */)
 
-const _d245153c = () => import('/Users/alicia/Documents/develop/poetry/pages/poetry/_id.vue' /* webpackChunkName: "pages/poetry-id" */)
+const _79ef9655 = () => import('/Users/alicia/Documents/develop/poetry/pages/search/_id.vue' /* webpackChunkName: "pages/search-id" */)
 
 const _7fe5bf38 = () => import('/Users/alicia/Documents/develop/poetry/pages/author/_id.vue' /* webpackChunkName: "pages/author-id" */)
+
+const _1f7740ba = () => import('/Users/alicia/Documents/develop/poetry/pages/all/_id.vue' /* webpackChunkName: "pages/all-id" */)
+
+const _515791cf = () => import('/Users/alicia/Documents/develop/poetry/pages/authorall/_id.vue' /* webpackChunkName: "pages/authorall-id" */)
+
+const _d245153c = () => import('/Users/alicia/Documents/develop/poetry/pages/poetry/_id.vue' /* webpackChunkName: "pages/poetry-id" */)
+
+const _1169f5ec = () => import('/Users/alicia/Documents/develop/poetry/pages/_id.2.vue' /* webpackChunkName: "pages/id.2" */)
+
+const _6395d3b0 = () => import('/Users/alicia/Documents/develop/poetry/pages/_id.vue' /* webpackChunkName: "pages/id" */)
 
 
 
@@ -57,14 +67,39 @@ export default new Router({
 			name: "404"
 		},
 		{
-			path: "/poetry/:id?",
-			component: _d245153c,
-			name: "poetry-id"
+			path: "/search/:id?",
+			component: _79ef9655,
+			name: "search-id"
 		},
 		{
 			path: "/author/:id?",
 			component: _7fe5bf38,
 			name: "author-id"
+		},
+		{
+			path: "/all/:id?",
+			component: _1f7740ba,
+			name: "all-id"
+		},
+		{
+			path: "/authorall/:id?",
+			component: _515791cf,
+			name: "authorall-id"
+		},
+		{
+			path: "/poetry/:id?",
+			component: _d245153c,
+			name: "poetry-id"
+		},
+		{
+			path: "/:id.2",
+			component: _1169f5ec,
+			name: "id.2"
+		},
+		{
+			path: "/:id",
+			component: _6395d3b0,
+			name: "id"
 		},
 		{
 			path: "*",

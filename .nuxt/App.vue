@@ -10,12 +10,12 @@ import NuxtLoading from '~components/loading.vue'
 
 let layouts = {
 
-  "_default": () => import('/Users/alicia/Documents/develop/poetry/node_modules/nuxt/dist/app/layouts/default.vue'  /* webpackChunkName: "layouts/default" */)
+  "_default": () => import('/Users/alicia/Documents/develop/poetry/layouts/default.vue'  /* webpackChunkName: "layouts/default" */)
 
 }
 
 export default {
-  head: {"titleTemplate":"%s - 诗词","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"诗词","content":"诗词, 诗歌, 唐诗三百首"}]},
+  head: {"titleTemplate":"%s - 诗词","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"诗词","content":"诗词, 诗歌, 唐诗三百首"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicon.ico"}]},
   data: () => ({
     layout: null,
     layoutName: ''
@@ -59,4 +59,6 @@ export default {
 }
 </script>
 
+
+<style src="static/css/main.less" lang="less"></style>
 

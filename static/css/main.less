@@ -1,0 +1,293 @@
+.poetry-vue {
+    margin: 50px 10%;
+    .title {
+        font-size: 22px;
+        margin-right: 50px;
+    }
+    .show-pinyin,
+    .show-zhushi {
+        display: inline-block;
+        margin-right: 18px;
+        border-radius: 50px;
+        background-color: #EEE;
+        line-height: 30px;
+        padding: 3px;
+        vertical-align: 3px;
+        width: 30px;
+        text-align: center;
+        font-size: 12px;
+        cursor: pointer;
+        transition: .3s;
+        &:hover {
+            background-color: #d6d6d6;
+        }
+        &.selected {
+            background-color: #da6b6a;
+            color: #FFF;
+        }
+    }
+    .keywords>span {
+        display: inline-block;
+        margin: 0 10px 0 0;
+        font-size: 12px;
+        background: #ffeaea;
+        padding: 3px 5px;
+        border-radius: 3px;
+    }
+    .desc {
+        font-size: 15px;
+        color: #8c8c8c;
+        letter-spacing: 1px;
+        max-height: 0;
+        transition: .3s;
+        overflow: hidden;
+        margin: 0;
+        &.zhushi-show {
+            max-height: 300px;
+        }
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    } // .pinyin {
+    //     margin: 10px 0 5px;
+    //     color: #da6363;
+    //     font-size: 13px;
+    //     font-family: monospace;
+    //     >span {
+    //         margin: 20px 5px 0;
+    //         display: inline-block;
+    //         width: 30px;
+    //         text-align: center;
+    //     }
+    // }
+    .words {
+        margin: 20px 0px 5px;
+        font-size: 17px;
+        color: #565656;
+        >span {
+            display: inline-block;
+            text-align: center;
+            >span {
+                display: block;
+                text-align: left;
+                margin: 0 1px;
+            }
+            >span.pinyin {
+                display: none;
+                margin: 3px 0;
+                color: #da6363;
+                font-size: 12px;
+                font-family: monospace;
+            }
+        }
+        &.pinyin-show {
+            >span {
+                width: 36px;
+            }
+            .pinyin {
+                display: block;
+            }
+        }
+    }
+    .page {
+        position: fixed;
+        right: 10%;
+        >a {
+            margin-left: 20px;
+        }
+    }
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    font-family: "PingFang SC", "Lantinghei SC", "Microsoft YaHei", arial, "\5b8b\4f53", sans-serif, tahoma;
+}
+
+a {
+    text-decoration: none;
+    color: #da6363;
+    transition: .3s;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.main-vue {
+    .header {
+        padding: 15px 10%;
+        background: #da6b6a;
+        a {
+            color: #fff;
+            margin-right: 35px;
+        }
+        .searchLink {
+            margin-left: 10px;
+        }
+        .search-div {
+            float: right;
+            margin: -4px;
+        }
+    }
+}
+
+.index-vue {
+    padding: 20px 10%;
+    .keywords {}
+    .tags {
+        >a {
+            margin: 10px;
+            display: inline-block;
+        }
+    }
+}
+
+.loading-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding-top: 200px;
+    font-size: 30px;
+    font-family: sans-serif;
+    z-index: 1000;
+}
+
+.author-vue {
+    padding: 15px 10%;
+    .page {
+        position: fixed;
+        right: 10%;
+        >a {
+            margin-left: 20px;
+        }
+    }
+    .title {
+        font-size: 22px;
+        margin-right: 50px;
+    }
+    article {
+        color: #6b6b6b;
+    }
+    .poetrylist {
+        margin: 20px 0;
+        font-size: 15px;
+        >dt {
+            margin: 15px 0;
+        }
+    }
+    .author-desc {
+        padding-left: 130px;
+    }
+    .img {
+        height: 150px;
+        width: 100px;
+        background-position: center;
+        background-size: cover;
+        float: left;
+    }
+}
+
+.search-vue {
+    padding: 15px 10%;
+    .title {
+        font-size: 17px;
+    }
+    .search-input{
+        margin: 15px 0;
+    }
+    .search-div {
+        a:hover {
+            background: #e6b5b5;
+            color: #FFF;
+            text-decoration: none;
+        }
+        span,
+        a {
+            margin: 5px 10px 5px -4px;
+            display: inline-block;
+            padding: 1px 4px;
+            &.selected {
+                background: #e08584;
+                color: #FFF;
+            }
+        }
+        input[type="text"] {
+            border: 1px solid #EEE;
+            margin-right: 10px;
+        }
+    }
+    .author-desc {
+        padding-left: 130px;
+    }
+    .img {
+        height: 150px;
+        width: 100px;
+        background-position: center;
+        background-size: cover;
+        float: left;
+    }
+
+    .author-info{
+        overflow: hidden;
+        margin: 10px 0;
+    }
+    .page {
+        margin: 30px 0;
+        a {
+            margin-left: 20px;
+        }
+    }
+    .no-result {
+        margin: 30px;
+    }
+}
+
+.gray {
+    color: #d3d3d3 !important;
+}
+
+.dark{
+    color: #a2a2a2 !important;
+}
+
+.gray2 {
+    color: #eee !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+input[type="text"] {
+    border: none;
+    line-height: 19px;
+    padding: 4px 11px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: inherit;
+    vertical-align: middle;
+    outline: none;
+}
+
+.background {
+    background: url(/image/shanshui.jpeg) no-repeat;
+    background-position: right 0px top -150px;
+    background-size: 700px;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0px;
+    left: 0;
+    bottom: 0;
+}

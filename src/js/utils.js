@@ -1,8 +1,8 @@
-import pydic from './pydic';
+import pydic from './pinyin';
 
 export default {
   trans(cc) {
-    if(cc == '')return '';
+    if (cc == '') return '';
     let str = '';
     let str2;
     let s;

@@ -35,7 +35,11 @@ module.exports = function(sequelize, DataTypes) {
     author_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true
-    }
+    },
+    description: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
   }, {
     tableName: 'poetry'
   });
