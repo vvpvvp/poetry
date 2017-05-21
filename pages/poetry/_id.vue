@@ -73,6 +73,9 @@ export default {
   computed: {
     bgimg() {
       let s = {};
+      if(!this.poetry){
+        return s;
+      }
       let images = {
         '春节': 'chunjie',
         '冬天': 'dong2',
