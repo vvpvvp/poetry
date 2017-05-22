@@ -1,5 +1,5 @@
 .poetry-vue {
-    margin: 50px 10%;
+    margin: 40px 10%;
     font-family: cursive;
     font-size: 120%;
     .title {
@@ -41,12 +41,14 @@
         color: #757575;
         font-weight: 100;
         letter-spacing: 1px;
-        background: rgba(255, 255, 255, 0.84);
         max-height: 0;
         transition: .3s;
         overflow: hidden;
         margin: 0 4px;
         font-family: fantasy;
+        >span {
+            background: rgba(255, 255, 255, 0.84);
+        }
         &.zhushi-show {
             max-height: 300px;
         }
@@ -59,18 +61,16 @@
         list-style: none;
         margin: 0;
         padding: 0;
-    } // .pinyin {
-    //     margin: 10px 0 5px;
-    //     color: #da6363;
-    //     font-size: 13px;
-    //     font-family: monospace;
-    //     >span {
-    //         margin: 20px 5px 0;
-    //         display: inline-block;
-    //         width: 30px;
-    //         text-align: center;
-    //     }
-    // }
+    }
+    p.show_title_pinyin {
+        margin: 0;
+        color: #da6363;
+        font-size: 12px;
+        font-family: monospace;
+    }
+    p.show_title {
+        margin-top: 0;
+    }
     .words {
         margin: 20px 0px 5px;
         font-size: 22px;
@@ -169,7 +169,7 @@ a {
 }
 
 .author-vue {
-    padding: 15px 10%;
+    padding: 40px 10%;
     .page {
         position: fixed;
         right: 10%;
@@ -208,7 +208,7 @@ a {
     .title {
         font-size: 17px;
     }
-    .search-input{
+    .search-input {
         margin: 15px 0;
     }
     .search-div {
@@ -242,8 +242,7 @@ a {
         background-size: cover;
         float: left;
     }
-
-    .author-info{
+    .author-info {
         overflow: hidden;
         margin: 10px 0;
     }
@@ -262,7 +261,7 @@ a {
     color: #d3d3d3 !important;
 }
 
-.dark{
+.dark {
     color: #a2a2a2 !important;
 }
 
@@ -295,4 +294,19 @@ input[type="text"] {
     right: 0px;
     left: 0;
     bottom: 0;
+}
+
+@media screen and (max-width:500px){
+    .header{
+        .search-div{display: none;}
+    }
+
+    .author-vue, .poetry-vue{
+        .page{
+            top: 0px;
+            right: 0;
+            text-align: right;
+            position: relative;
+        }
+    }
 }

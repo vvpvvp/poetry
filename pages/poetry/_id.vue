@@ -9,8 +9,9 @@
       <p class="not-found">不存在该首诗。</p>
     </div>
     <div v-else>
-      <p>
-        <span class="title">{{poetry.title}} <span v-show="show.pinyin"> ({{poetry.titlePinyin}})</span></span>
+      <p class="show_title_pinyin"><span v-show="show.pinyin"> {{poetry.titlePinyin}}</span>&nbsp;</p>
+      <p class="show_title">
+        <span class="title">{{poetry.title}}</span>
         <span class="show-pinyin" :class="{'selected': show.pinyin}" @click="show.pinyin=!show.pinyin">拼音</span>
         <span class="show-zhushi" :class="{'selected': show.zhushi}" @click="show.zhushi=!show.zhushi">注释</span>
       </p>
@@ -31,7 +32,7 @@
               <span>{{w}}</span>
             </span>
           </p>
-          <p class="desc" :class="{'zhushi-show': show.zhushi}">{{line.desc}}</p>
+          <p class="desc" :class="{'zhushi-show': show.zhushi}"><span>{{line.desc}}</span></p>
           <!--<p>{{line.notes}}</p>-->
         </li>
       </ul>
@@ -50,7 +51,7 @@ export default {
         if (res.data.status == 200) {
           let poetryList = res.data.poetryList;
           for (let p of poetryList) {
-            p.pinyin = utils.trans(p.words || '').split(/[\s|，|。|“|”|、|＿|？|：|)|(]|《|》/);
+            p.pinyin = utils.trans(p.words || '').split(/[\s|，|。|“|”|、|＿|？|：|)|(]|《|》|！/);
           }
           res.data.poetry.titlePinyin = utils.trans(res.data.poetry.title || '');
           res.data.poetry.keywords = res.data.poetry.keywords == '' ? [] : res.data.poetry.keywords.split(",");
