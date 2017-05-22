@@ -10,7 +10,7 @@
     </div>
     <div v-else>
       <p>
-        <span class="title">{{poetry.title}}</span>
+        <span class="title">{{poetry.title}} <span v-show="show.pinyin"> ({{poetry.titlePinyin}})</span></span>
         <span class="show-pinyin" :class="{'selected': show.pinyin}" @click="show.pinyin=!show.pinyin">拼音</span>
         <span class="show-zhushi" :class="{'selected': show.zhushi}" @click="show.zhushi=!show.zhushi">注释</span>
       </p>
@@ -52,6 +52,7 @@ export default {
           for (let p of poetryList) {
             p.pinyin = utils.trans(p.words || '').split(/[\s|，|。|“|”|、|＿|？|：|)|(]|《|》/);
           }
+          res.data.poetry.titlePinyin = utils.trans(res.data.poetry.title || '');
           res.data.poetry.keywords = res.data.poetry.keywords == '' ? [] : res.data.poetry.keywords.split(",");
           return { poetry: res.data.poetry, poetryList: poetryList, params: params };
         } else {
@@ -107,6 +108,7 @@ export default {
         '友': 'you',
         '鱼': 'yu',
         '乐': 'yue',
+        '曲': 'yue',
         '竹': 'zhu',
         '女': 'nvzi2',
         '秋': 'qiu',

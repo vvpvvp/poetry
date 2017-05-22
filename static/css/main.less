@@ -1,7 +1,9 @@
 .poetry-vue {
     margin: 50px 10%;
+    font-family: cursive;
+    font-size: 120%;
     .title {
-        font-size: 22px;
+        font-size: 28px;
         margin-right: 50px;
     }
     .show-pinyin,
@@ -36,12 +38,15 @@
     }
     .desc {
         font-size: 15px;
-        color: #8c8c8c;
+        color: #757575;
+        font-weight: 100;
         letter-spacing: 1px;
+        background: rgba(255, 255, 255, 0.84);
         max-height: 0;
         transition: .3s;
         overflow: hidden;
-        margin: 0;
+        margin: 0 4px;
+        font-family: fantasy;
         &.zhushi-show {
             max-height: 300px;
         }
@@ -68,14 +73,14 @@
     // }
     .words {
         margin: 20px 0px 5px;
-        font-size: 17px;
+        font-size: 22px;
         color: #565656;
         >span {
             display: inline-block;
             text-align: center;
+            background: rgba(255, 255, 255, 0.88);
             >span {
                 display: block;
-                text-align: left;
                 margin: 0 1px;
             }
             >span.pinyin {
