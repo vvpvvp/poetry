@@ -10,7 +10,7 @@ import middleware from './middleware'
 import { app, router, NuxtError } from './index'
 import { applyAsyncData, getMatchedComponents, getContext, promiseSeries, promisify, urlJoin } from './utils'
 
-const isDev = true
+const isDev = false
 const _app = new Vue(app)
 
 // This exported function will be called by `bundleRenderer`.
@@ -45,7 +45,7 @@ export default context => {
   // Error function
   context.error = _app.$options._nuxt.error.bind(_app)
 
-  const s = isDev && Date.now()
+  
   let ctx = null
   let componentsLoaded = false
   let Components = []
@@ -190,8 +190,6 @@ export default context => {
       
       return _app
     }
-    
-      debug('Data fetching ' + context.url + ': ' + (Date.now() - s) + 'ms')
     
     // datas are the first row of each
     context.nuxt.data = res.map((r) => (r[0] || {}))
