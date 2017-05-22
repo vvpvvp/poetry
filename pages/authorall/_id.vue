@@ -24,10 +24,12 @@
 </template>
 <script>
 import axios from 'axios';
+import location from '../../src/js/location';
+
 export default {
   transition: 'bounce',
   asyncData({ params, error }) {
-    return axios.get(`http://localhost:3002/author?id=${params.id}&&size=5000`)
+    return axios.get(`${location()}/author?id=${params.id}&&size=5000`)
       .then((res) => {
         if (res.status == 200) {
           return { author: res.data.author, poetrys: res.data.poetrys, params: params };

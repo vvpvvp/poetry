@@ -20,8 +20,6 @@ const _515791cf = () => import('/Users/alicia/Documents/develop/poetry/pages/aut
 
 const _d245153c = () => import('/Users/alicia/Documents/develop/poetry/pages/poetry/_id.vue' /* webpackChunkName: "pages/poetry-id" */)
 
-const _1169f5ec = () => import('/Users/alicia/Documents/develop/poetry/pages/_id.2.vue' /* webpackChunkName: "pages/id.2" */)
-
 const _6395d3b0 = () => import('/Users/alicia/Documents/develop/poetry/pages/_id.vue' /* webpackChunkName: "pages/id" */)
 
 
@@ -90,11 +88,6 @@ export default new Router({
 			path: "/poetry/:id?",
 			component: _d245153c,
 			name: "poetry-id"
-		},
-		{
-			path: "/:id.2",
-			component: _1169f5ec,
-			name: "id.2"
 		},
 		{
 			path: "/:id",

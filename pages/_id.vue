@@ -26,10 +26,12 @@
 </template>
 <script>
 import axios from 'axios';
+import location from '../src/js/location';
+
 export default {
   transition: 'bounce',
   asyncData({ params, error }) {
-    return axios.get(`http://localhost:3002/poetry?id=${params.id}`)
+    return axios.get(`${location()}/poetry?id=${params.id}`)
       .then((res) => {
         if (res.data.status == 200) {
           return { poetry: res.data.poetry, poetryList: res.data.poetryList, params: params };

@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-
+import location from '../../src/js/location';
 import axios from 'axios';
 export default {
   transition: 'bounce',
@@ -61,7 +61,7 @@ export default {
     let page = parseInt(query.page) || 1;
     let word = params.id || query.keyword || '';
     // console.log(`http://localhost:3002/search?word=${params.id}&page=${query.page||1}&type=${type}`);
-    return axios.get(`http://localhost:3002/search`, {
+    return axios.get(`${location()}/search`, {
       params: {
         word: word,
         type: type,

@@ -16,7 +16,7 @@
 import axios from 'axios';
 export default {
   asyncData ({ params, error }) {
-    return axios.get(`http://localhost:3002/author?id=${params.id}`)
+    return axios.get(`${location()}/author?id=${params.id}`)
     .then((res) => {
       if(res.status == 200){
         return res.data;

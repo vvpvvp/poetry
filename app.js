@@ -7,7 +7,7 @@ var config = require('./server/config/data');
 var chalk = require("chalk");
 
 global.log = log;
-global.logs = function() {
+global.logs = function () {
   log(chalk.green(...arguments))
 };
 
@@ -30,7 +30,7 @@ var app = express();
 var server = require('http').Server(app);
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(cookieParser());
-app.all('*', function(req, res, next) {
+app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
@@ -42,7 +42,7 @@ const port = 3002;
 
 server.listen(port);
 
-app.get('/poetry', function(req, res) {
+app.get('/poetry', function (req, res) {
   let id = req.query.id;
   if (id == undefined) {
     res.json({ status: 403 });
@@ -85,7 +85,7 @@ app.get('/poetry', function(req, res) {
 
 
 
-app.get('/search', function(req, res) {
+app.get('/search', function (req, res) {
   let word = req.query.word;
   console.log(req.query);
   let page = parseInt(req.query.page) || 1;
@@ -117,16 +117,17 @@ app.get('/search', function(req, res) {
       res.json({ datas: authorData, status: 200 });
     });
   } else {
-    let where = { $or: [] };
+    let where = {};
     let hasWhere = false;
+    let $or = [];
     if (word) {
       hasWhere = true;
-      where.$or.push({
+      $or.push({
         title: {
           $like: `%${word}%`
         }
       });
-      where.$or.push({
+      $or.push({
         keywords: {
           $like: `%${word}%`
         }
@@ -134,12 +135,13 @@ app.get('/search', function(req, res) {
     }
     if (keyword) {
       hasWhere = true;
-      where.$or.push({
+      $or.push({
         keywords: {
           $like: `%${keyword}%`
         }
       });
     }
+    if ($or.length) where.$or = $or;
     if (req.query.dynasty) {
       hasWhere = true;
       where.dynasty = req.query.dynasty
@@ -155,7 +157,7 @@ app.get('/search', function(req, res) {
   }
 });
 
-app.get('/author', function(req, res) {
+app.get('/author', function (req, res) {
   let id = req.query.id;
   if (id == undefined) {
     res.json({ status: 403 });

@@ -41,10 +41,11 @@
 <script>
 import axios from 'axios';
 import utils from '../../src/js/utils';
+import location from '../../src/js/location';
 export default {
   transition: 'bounce',
   asyncData({ params, error }) {
-    return axios.get(`http://localhost:3002/poetry?id=${params.id}`)
+    return axios.get(`${location()}/poetry?id=${params.id}`)
       .then((res) => {
         if (res.data.status == 200) {
           let poetryList = res.data.poetryList;
