@@ -6,21 +6,21 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 
-const _453123c0 = () => import('/Users/alicia/Documents/develop/poetry/pages/index.vue' /* webpackChunkName: "pages/index" */)
+const _69c8c3c1 = () => import('/Users/alicia/Documents/develop/me/poetry/pages/index.vue' /* webpackChunkName: "pages/index" */)
 
-const _f0bf02b4 = () => import('/Users/alicia/Documents/develop/poetry/pages/404.vue' /* webpackChunkName: "pages/404" */)
+const _0c1baa32 = () => import('/Users/alicia/Documents/develop/me/poetry/pages/404.vue' /* webpackChunkName: "pages/404" */)
 
-const _79ef9655 = () => import('/Users/alicia/Documents/develop/poetry/pages/search/_id.vue' /* webpackChunkName: "pages/search-id" */)
+const _b65e6218 = () => import('/Users/alicia/Documents/develop/me/poetry/pages/search/_id.vue' /* webpackChunkName: "pages/search-id" */)
 
-const _7fe5bf38 = () => import('/Users/alicia/Documents/develop/poetry/pages/author/_id.vue' /* webpackChunkName: "pages/author-id" */)
+const _aa721052 = () => import('/Users/alicia/Documents/develop/me/poetry/pages/author/_id.vue' /* webpackChunkName: "pages/author-id" */)
 
-const _1f7740ba = () => import('/Users/alicia/Documents/develop/poetry/pages/all/_id.vue' /* webpackChunkName: "pages/all-id" */)
+const _7ca6e47b = () => import('/Users/alicia/Documents/develop/me/poetry/pages/all/_id.vue' /* webpackChunkName: "pages/all-id" */)
 
-const _515791cf = () => import('/Users/alicia/Documents/develop/poetry/pages/authorall/_id.vue' /* webpackChunkName: "pages/authorall-id" */)
+const _4893a0d0 = () => import('/Users/alicia/Documents/develop/me/poetry/pages/authorall/_id.vue' /* webpackChunkName: "pages/authorall-id" */)
 
-const _d245153c = () => import('/Users/alicia/Documents/develop/poetry/pages/poetry/_id.vue' /* webpackChunkName: "pages/poetry-id" */)
+const _7c82a3fe = () => import('/Users/alicia/Documents/develop/me/poetry/pages/poetry/_id.vue' /* webpackChunkName: "pages/poetry-id" */)
 
-const _6395d3b0 = () => import('/Users/alicia/Documents/develop/poetry/pages/_id.vue' /* webpackChunkName: "pages/id" */)
+const _4086c269 = () => import('/Users/alicia/Documents/develop/me/poetry/pages/_id.vue' /* webpackChunkName: "pages/id" */)
 
 
 
@@ -56,47 +56,47 @@ export default new Router({
   routes: [
 		{
 			path: "/",
-			component: _453123c0,
+			component: _69c8c3c1,
 			name: "index"
 		},
 		{
 			path: "/404",
-			component: _f0bf02b4,
+			component: _0c1baa32,
 			name: "404"
 		},
 		{
 			path: "/search/:id?",
-			component: _79ef9655,
+			component: _b65e6218,
 			name: "search-id"
 		},
 		{
 			path: "/author/:id?",
-			component: _7fe5bf38,
+			component: _aa721052,
 			name: "author-id"
 		},
 		{
 			path: "/all/:id?",
-			component: _1f7740ba,
+			component: _7ca6e47b,
 			name: "all-id"
 		},
 		{
 			path: "/authorall/:id?",
-			component: _515791cf,
+			component: _4893a0d0,
 			name: "authorall-id"
 		},
 		{
 			path: "/poetry/:id?",
-			component: _d245153c,
+			component: _7c82a3fe,
 			name: "poetry-id"
 		},
 		{
 			path: "/:id",
-			component: _6395d3b0,
+			component: _4086c269,
 			name: "id"
 		},
 		{
 			path: "*",
-			component: _f0bf02b4,
+			component: _0c1baa32,
 			name: "custom"
 		}
   ]

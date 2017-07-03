@@ -6,7 +6,7 @@ let location = () => {
 
   let location = 'localhost';
   if (host == 's.ch-un.com') {
-    location = '59.110.159.39';
+    location = '106.15.229.107';
   }
   return `http://${location}:3002`;
 }

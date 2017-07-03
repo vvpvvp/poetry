@@ -51,7 +51,7 @@ export default {
         if (res.data.status == 200) {
           let poetryList = res.data.poetryList;
           for (let p of poetryList) {
-            p.pinyin = utils.trans(p.words || '').split(/[\s|，|。|“|”|、|＿|？|：|)|(]|《|》|！/);
+            p.pinyin = utils.trans(p.words || '').split(/[\s|，|。|“|”|、|＿|？|：|)|(]|《|》|！|；/);
           }
           res.data.poetry.titlePinyin = utils.trans(res.data.poetry.title || '');
           res.data.poetry.keywords = res.data.poetry.keywords == '' ? [] : res.data.poetry.keywords.split(",");
