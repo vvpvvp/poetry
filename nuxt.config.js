@@ -9,7 +9,7 @@ module.exports = {
       })
     }
   },
-  loading: '~components/loading.vue',
+  loading: 'components/loading.vue',
   css: [
     { src: 'static/css/main.less', lang: 'less' }
   ],
