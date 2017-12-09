@@ -13,7 +13,8 @@
       <p class="show_title">
         <span class="title">{{poetry.title}}</span>
         <span class="show-pinyin" :class="{'selected': show.pinyin}" @click="show.pinyin=!show.pinyin">拼音</span>
-        <span class="show-zhushi" :class="{'selected': show.zhushi}" @click="show.zhushi=!show.zhushi">注释</span>
+        <span class="show-zhushi" v-if="allDesc" :class="{'selected': show.zhushi}" @click="show.zhushi=!show.zhushi">注释</span>
+        <span class="show-fanti" :class="{'selected': show.fanti}" @click="show.fanti=!show.fanti">{{show.fanti ? '繁体' : '简体'}}</span>
       </p>
       <p>朝代: {{poetry.dynasty}}</p>
       <p>作者：
@@ -29,7 +30,8 @@
           <p class="words" :class="{'pinyin-show': show.pinyin}">
             <span v-for="(w, $index) of line.words">
               <span class="pinyin">{{line.pinyin[$index]}}</span>
-              <span>{{w}}</span>
+              <span v-if="!show.fanti">{{w}}</span>
+              <span v-else>{{line.fantis[$index]}}</span>
             </span>
           </p>
           <p class="desc" :class="{'zhushi-show': show.zhushi}"><span>{{line.desc}}</span></p>
@@ -49,13 +51,16 @@ export default {
     return axios.get(`${location()}/poetry?id=${params.id}`)
       .then((res) => {
         if (res.data.status == 200) {
+          let allDesc = "";
           let poetryList = res.data.poetryList;
           for (let p of poetryList) {
             p.pinyin = utils.trans(p.words || '').split(/[\s|，|。|“|”|、|＿|？|：|)|(]|《|》|！|；/);
+            p.fantis = utils.tranFanti(p.words || '');
+            allDesc += p.desc;
           }
           res.data.poetry.titlePinyin = utils.trans(res.data.poetry.title || '');
           res.data.poetry.keywords = res.data.poetry.keywords == '' ? [] : res.data.poetry.keywords.split(",");
-          return { poetry: res.data.poetry, poetryList: poetryList, params: params };
+          return { allDesc, poetry: res.data.poetry, poetryList: poetryList, params: params };
         } else {
           return { poetry: null, poetryList: [], params: params };
         }
@@ -67,9 +72,12 @@ export default {
   data() {
     return {
       load: false,
+      fantis: {},
+      allDesc: '',
       show: {
         pinyin: false,
-        zhushi: false
+        zhushi: false,
+        fanti: false
       }
     }
   },
