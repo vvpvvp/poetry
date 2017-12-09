@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import NuxtLoading from '~components/loading.vue'
+import NuxtLoading from '/Users/alicia/Documents/develop/me/poetry/components/loading.vue'
 
 let layouts = {
 

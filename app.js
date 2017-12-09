@@ -11,7 +11,7 @@ global.logs = function () {
   log(chalk.green(...arguments))
 };
 
-const sequelize = new Sequelize('poetry', 'root', 'root', config);
+const sequelize = new Sequelize('poetry', config.user, config.password, config.seq);
 
 const Poetry = sequelize.import("./server/models/poetry");
 const Author = sequelize.import("./server/models/author");
