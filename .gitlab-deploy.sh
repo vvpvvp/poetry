@@ -1,5 +1,5 @@
-npm install
-npm run build
+cd ../
+cp -rf poetry /var/www/poetry
 
-rm -rf /var/www/poetry
-mv ./ /var/www/poetry
+cd /var/www/poetry
+npm install
