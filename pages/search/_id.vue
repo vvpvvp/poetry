@@ -59,11 +59,13 @@ export default {
   asyncData({ params, query, error }) {
     let type = query.type || 'poetry';
     let page = parseInt(query.page) || 1;
-    let word = params.id || query.keyword || '';
+    let word = params.id || '';
+    let keyword = query.keyword || '';
     // console.log(`http://localhost:3002/search?word=${params.id}&page=${query.page||1}&type=${type}`);
     return axios.get(`${location()}/search`, {
       params: {
         word: word,
+        keyword,
         type: type,
         page,
         dynasty: query.dynasty || '',
@@ -80,7 +82,7 @@ export default {
       })
   },
   data() {
-    let searchText = this.$route.params.id || this.$route.query.keyword || '';
+    let searchText = this.$route.params.id || '';
     return {
       dynasty: [
         '先秦',

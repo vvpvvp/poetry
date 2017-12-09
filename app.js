@@ -127,8 +127,9 @@ app.get('/search', function (req, res) {
           $like: `%${word}%`
         }
       });
+      
       $or.push({
-        keywords: {
+        description: {
           $like: `%${word}%`
         }
       });
