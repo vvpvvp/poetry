@@ -4,7 +4,6 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-server/config/data.js
 # Runtime data
 pids
 *.pid
@@ -35,7 +34,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-server/config/data.js
+server/config/*
 # Typescript v1 declaration files
 typings/
 
