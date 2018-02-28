@@ -6,6 +6,11 @@
         <nuxt-link class="searchLink" :to="'/search/'+searchText+'?type='+type">查询</nuxt-link>
         <nuxt-link class="searchLink" :to="'/search/?type='+type">清除</nuxt-link>
       </div>
+      <div v-if="query.keyword">
+        <span>分类</span>
+        <span class="selected">{{query.keyword}}</span>
+        <nuxt-link class="searchLink" :to="'/search/?type='+type">清除</nuxt-link>
+      </div>
       <div>
         <span>类型</span>
         <nuxt-link :class="{'selected': type=='author'}" :to="typeUrl('author')">诗人</nuxt-link>
@@ -13,7 +18,7 @@
       </div>
       <div>
         <span>朝代</span>
-        <nuxt-link :class="{'selected': query.dynasty==''}" :to="dynastyUrl('')" key="不限">不限</nuxt-link>
+        <nuxt-link :class="{'selected': !query.dynasty || query.dynasty==''}" :to="dynastyUrl('')" key="不限">不限</nuxt-link>
         <nuxt-link v-for="d of dynasty" :class="{'selected': query.dynasty==d}" :to="dynastyUrl(d)" :key="d">{{d}}</nuxt-link>
       </div>
     </div>
@@ -71,7 +76,7 @@ export default {
         dynasty: query.dynasty || '',
       }
     }).then((res) => {
-      let url = '/search/' + word + '?type=' + type + '&dynasty=' + (query.dynasty || '');
+      let url = '/search/' + word + '?type=' + type + '&dynasty=' + (query.dynasty || '') + '&keyword=' + (query.keyword || '');
       // console.log(url);
       let data = { datas: (res.data ? res.data.datas : []), params, query, type, page, url };
       // console.log(data);
