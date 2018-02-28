@@ -1,5 +1,7 @@
-cd ../
-yes|cp -f poetry/**/* /var/www/poetry
 
-cd /var/www/poetry
 npm install
+# npm install
+npm run build
+#cos-put /srv/cw-webui
+rm -rf /var/www/poetry
+mv ./ /var/www/poetry
