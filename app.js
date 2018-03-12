@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 var log = require("hey-log");
 var config = require('./server/config/data');
 var chalk = require("chalk");
+var utils = require("hey-utils");
 
 global.log = log;
 global.logs = function () {
@@ -83,6 +84,63 @@ app.get('/poetry', function (req, res) {
 
 });
 
+
+app.post('/poetry', function (req, res) {
+  // 创建事务
+  let id = null;
+  sequelize.transaction(function (t) {
+    return Poetry.create(req.body.poetry, {transaction:t}).then(function(poetry){
+      id = poetry.id;
+      let ps = [];
+      for(var line of req.body.poetryLine) {
+        line.poetry = poetry.id;
+        ps.push(PoetryLine.create(line, {transaction:t}));
+      }
+      return Promise.all(ps);
+    });
+  }).then(function (results){
+    /* 操作成功，事务会自动提交 */
+    res.json({ status: 200, id: id });
+  }).catch(function(err){
+    /* 操作失败，事件会自动回滚 */
+    console.log(err);
+    res.json({ status: 500 });
+  });
+  
+});
+
+app.post('/poetry/:id', function (req, res) {
+  let id = req.params.id;
+  if (id == undefined) {
+    res.json({ status: 403 });
+  }
+  // console.log(req.body);
+  // 创建事务
+  sequelize.transaction(function (t) {
+    log(req.body.poetry)
+    return Poetry.update(req.body.poetry, {'where':{'id':id}}, {transaction:t})
+    .then(function(){
+      console.log('line')
+      
+      let ps = [];
+      ps.push(PoetryLine.destroy({'where':{'poetry': id}}, {transaction:t}));
+      for(var line of req.body.poetryLine) {
+        line.poetry = id;
+        ps.push(PoetryLine.create(line, {transaction:t}));
+      }
+
+      return Promise.all(ps);
+    })
+  }).then(function (results){
+    /* 操作成功，事务会自动提交 */
+    res.json({ status: 200 });
+  }).catch(function(err){
+    console.log(err);
+    /* 操作失败，事件会自动回滚 */
+    res.json({ status: 500 });
+  });
+  
+});
 
 
 app.get('/search', function (req, res) {

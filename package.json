@@ -21,6 +21,7 @@
     "hey-log": "0.0.4",
     "hey-utils": "0.0.15",
     "less-loader": "^4.0.3",
+    "mysql": "^2.15.0",
     "node-less": "^1.0.0",
     "nuxt": "^0.10.7",
     "sequelize": "^3.30.4",
