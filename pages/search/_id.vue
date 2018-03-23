@@ -1,25 +1,30 @@
 <template>
   <div class="search-vue">
     <div class="search-div">
-      <div class="search-input">
-        <input type="text" placeholder="查询诗句/诗人" v-model="searchText" @keyup.enter="search" />
-        <nuxt-link class="searchLink" :to="'/search/'+searchText+'?type='+type">查询</nuxt-link>
-        <nuxt-link class="searchLink" :to="'/search/?type='+type">清除</nuxt-link>
-      </div>
-      <div v-if="query.keyword">
+      <div v-if="query.tag">
         <span>分类</span>
-        <span class="selected">{{query.keyword}}</span>
+        <span class="selected">{{query.tag}}</span>
         <nuxt-link class="searchLink" :to="'/search/?type='+type">清除</nuxt-link>
       </div>
       <div>
         <span>类型</span>
-        <nuxt-link :class="{'selected': type=='author'}" :to="typeUrl('author')">诗人</nuxt-link>
-        <nuxt-link :class="{'selected': type=='poetry'}" :to="typeUrl('poetry')">诗词</nuxt-link>
+        <span :class="{'selected': type=='poetry'}" class="link" @click="searchType('poetry')">诗词</span>
+        <span :class="{'selected': type=='author'}" class="link" @click="searchType('author')">诗人</span>
+        <!-- <nuxt-link :class="{'selected': type=='poetry'}" :to="typeUrl('poetry')">诗词</nuxt-link> -->
       </div>
       <div>
         <span>朝代</span>
-        <nuxt-link :class="{'selected': !query.dynasty || query.dynasty==''}" :to="dynastyUrl('')" key="不限">不限</nuxt-link>
-        <nuxt-link v-for="d of dynasty" :class="{'selected': query.dynasty==d}" :to="dynastyUrl(d)" :key="d">{{d}}</nuxt-link>
+        <span :class="{'selected': !dynasty || dynasty==''}" class="link" @click="searchDynasty('')" key="不限">不限</span>
+        <span v-for="d of dynastys" :class="{'selected': dynasty==d}" class="link" @click="searchDynasty(d)" :key="d">{{d}}</span>
+      </div>
+      <div>
+        <span>其他</span>
+        <input type="text" placeholder="几言" style="width: 30px" v-model="columns" @keyup.enter="search" />
+        <input type="text" placeholder="几行" style="width: 30px" v-model="rows" @keyup.enter="search" />
+        <input type="text" placeholder="字数" style="width: 30px" v-model="size" @keyup.enter="search" />
+        <input type="text" placeholder="查询诗句/诗人" v-model="id" @keyup.enter="search" />
+        <span class="link" @click="search">查询</span>
+        <span class="link" @click="emptySearch">清除</span>
       </div>
     </div>
     <div v-if="type == 'author'">
@@ -43,7 +48,7 @@
           <nuxt-link :to="'/author/'+ poetry.author_id" v-if="poetry.author_id">{{poetry.author}}</nuxt-link>
           <span v-else>{{poetry.author}}</span>
         </p>
-        <p class="dark">{{poetry.description}}</p>
+        <p class="dark">{{poetry.words}}</p>
       </div>
     </div>
     <div v-if="datas.length == 0" class="gray text-center no-result">
@@ -51,8 +56,8 @@
     </div>
     <div class="page">
       <span>当前第{{page}}页</span>
-      <nuxt-link v-if="query.page>1" :to="url+'&page='+(page-1)">上一页</nuxt-link>
-      <nuxt-link v-if="datas.length>=20" :to="url+'&page='+(page+1)">下一页</nuxt-link>
+      <nuxt-link v-if="query.page>1" :to="curl+'&page='+(page-1)">上一页</nuxt-link>
+      <nuxt-link v-if="datas.length>=20" :to="curl+'&page='+(page+1)">下一页</nuxt-link>
     </div>
   </div>
 </template>
@@ -64,32 +69,33 @@ export default {
   asyncData({ params, query, error }) {
     let type = query.type || 'poetry';
     let page = parseInt(query.page) || 1;
-    let word = params.id || '';
-    let keyword = query.keyword || '';
+    let id = params.id || '';
+    let tag = query.tag || '';
     // console.log(`http://localhost:3002/search?word=${params.id}&page=${query.page||1}&type=${type}`);
+    let p = {
+      word: id,
+      keyword: tag,
+      type: type,
+      page,
+      rows: query.rows || null,
+      columns: query.columns || null,
+      size: query.size || null,
+      dynasty: query.dynasty || '',
+    }
     return axios.get(`${location()}/search`, {
-      params: {
-        word: word,
-        keyword,
-        type: type,
-        page,
-        dynasty: query.dynasty || '',
-      }
+      params: p
     }).then((res) => {
-      let url = '/search/' + word + '?type=' + type + '&dynasty=' + (query.dynasty || '') + '&keyword=' + (query.keyword || '');
-      // console.log(url);
-      let data = { datas: (res.data ? res.data.datas : []), params, query, type, page, url };
-      // console.log(data);
+      let data = { 
+        datas: (res.data ? res.data.datas : [])
+      };
       return data;
+    }).catch((e) => {
+      error({ statusCode: 404, message: 'Not found' })
     })
-      .catch((e) => {
-        error({ statusCode: 404, message: 'Not found' })
-      })
   },
   data() {
-    let searchText = this.$route.params.id || '';
     return {
-      dynasty: [
+      dynastys: [
         '先秦',
         '两汉',
         '魏晋',
@@ -103,7 +109,22 @@ export default {
         '明代',
         '清代',
       ],
-      searchText: searchText
+      dynasty: this.$route.query.dynasty,
+      id: this.$route.params.id || '',
+      tag: this.$route.query.tag,
+      type: this.$route.query.type,
+      page: this.$route.query.page,
+      rows: this.$route.query.rows,
+      columns: this.$route.query.columns,
+      size: this.$route.query.size,
+    }
+  },
+  computed: {
+    query() {
+      return this.$route.query;
+    },
+    curl() {
+      return `/search/${this.id || ''}?type=${this.type||''}&tag=${this.tag||''}&dynasty=${this.dynasty||''}&rows=${this.rows||''}&columns=${this.columns||''}&size=${this.size||''}`;
     }
   },
   head() {
@@ -112,14 +133,19 @@ export default {
     }
   },
   methods: {
-    typeUrl(type) {
-      return '/search/' + (this.params.id || '') + '?type=' + type + '&keyword=' + (this.query.keyword || '') + '&dynasty=' + (this.query.dynasty || '');
+    emptySearch() {
+      this.$router.push(`/search?type=${this.type}`);
     },
-    dynastyUrl(type) {
-      return '/search/' + (this.params.id || '') + '?type=' + this.type + '&keyword=' + (this.query.keyword || '') + '&dynasty=' + type;
+    searchType(type) {
+      this.type = type;
+      this.search();
+    },
+    searchDynasty(dynasty) {
+      this.dynasty = dynasty;
+      this.search();
     },
     search() {
-      this.$el.querySelector(".searchLink").click();
+      this.$router.push(this.curl);
     }
   }
 }

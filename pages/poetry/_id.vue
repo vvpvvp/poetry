@@ -27,15 +27,21 @@
       <ul>
         <li v-for="line of poetryList">
           <!--<p class="pinyin"><span v-for="w of line.pinyin">{{w}}</span></p>-->
-          <p class="words" :class="{'pinyin-show': show.pinyin}">
-            <span v-for="(w, $index) of line.words">
-              <span class="pinyin">{{line.pinyin[$index]}}</span>
-              <span v-if="!show.fanti">{{w}}</span>
-              <span v-else>{{line.fantis[$index]}}</span>
-            </span>
-          </p>
-          <p class="desc" :class="{'zhushi-show': show.zhushi}"><span>{{line.desc}}</span></p>
-          <!--<p>{{line.notes}}</p>-->
+          <div v-if="show.pinyin">
+            <p class="words" :class="{'pinyin-show': show.pinyin}">
+              <span v-for="(w, $index) of line.words">
+                <span class="pinyin">{{line.pinyin[$index]}}</span>
+                <span v-if="!show.fanti">{{w}}</span>
+                <span v-else>{{line.fantis[$index]}}</span>
+              </span>
+            </p>
+            <p class="desc" :class="{'zhushi-show': show.zhushi}"><span>{{line.desc}}</span></p>
+          </div>
+          <div v-else>
+            <p class="words single-line" v-if="!show.fanti">{{line.words}}</p>
+            <p class="words single-line" v-else>{{line.fantis}}</p>
+            <p class="desc" :class="{'zhushi-show': show.zhushi}"><span>{{line.desc}}</span></p>
+          </div>
         </li>
       </ul>
     </div>
