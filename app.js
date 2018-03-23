@@ -47,8 +47,8 @@ const port = 3002;
 server.listen(port);
 
 app.get('/poetry', function (req, res) {
-  let id = req.query.id;
-  if (id == undefined) {
+  let id = parseInt(req.query.id);
+  if (!id) {
     res.json({ status: 403 });
   }
   let poetryData = [];
@@ -57,6 +57,7 @@ app.get('/poetry', function (req, res) {
 
   let resFun = () => {
     if (index == 2) {
+      console.log(poetryData)
       if (poetryData.length == 0) {
         res.json({ status: 403 });
       } else {
@@ -66,36 +67,48 @@ app.get('/poetry', function (req, res) {
     }
   }
 
-  // pool.query(`select from poetry where id = ?`, [id], function (error, results, fields) {
-  //   index++;
-  //   poetryData = results;
-  //   resFun();
-  // })
-  Poetry.findAll({
-    where: {
-      id: id
-    }
-  }).then((result) => {
-    index++;
-    poetryData = result;
-    resFun();
-  });
+  try{
+    pool.query(`select * from poetry where id = ?`, [id], function (error, results, fields) {
+      index++;
+      if(error) {
+        console.log(error)
+        res.json({ status: 500 });
+      }
+      poetryData = results;
+      resFun();
+    })
+    // Poetry.findAll({
+    //   where: {
+    //     id: parseInt(id)
+    //   }
+    // }).then((result) => {
+    //   index++;
+    //   poetryData = result;
+    //   resFun();
+    // });
 
 
-  // pool.query(`select from poetry_line where poetry = ?`, [id], function (error, results, fields) {
-  //   index++;
-  //   poetryLines = results;
-  //   resFun();
-  // })
-  PoetryLine.findAll({
-    where: {
-      poetry: id
-    }
-  }).then((result) => {
-    index++;
-    poetryLines = result;
-    resFun();
-  });
+    pool.query(`select * from poetry_line where poetry = ?`, [id], function (error, results, fields) {
+      if(error) {
+        console.log(error)
+        res.json({ status: 500 });
+      }
+      index++;
+      poetryLines = results;
+      resFun();
+    })
+    // PoetryLine.findAll({
+    //   where: {
+    //     poetry: parseInt(id)
+    //   }
+    // }).then((result) => {
+    //   index++;
+    //   poetryLines = result;
+    //   resFun();
+    // });
+  }catch(e) {
+    res.json({ status: 500 });
+  }
 
 });
 
@@ -132,7 +145,7 @@ app.post('/poetry/:id', function (req, res) {
   // console.log(req.body);
   // 创建事务
   sequelize.transaction(function (t) {
-    log(req.body.poetry)
+    // log(req.body.poetry)
     return Poetry.update(req.body.poetry, {'where':{'id':id}}, {transaction:t})
     .then(function(){
       console.log('line')
@@ -199,11 +212,11 @@ app.get('/search', function (req, res) {
       wheres.push(`( a.title like '%${words}%' or b.words like '%${words}%' )`);
     }
     if(keyword) {
-      wheres.push(` a.keywords like '%${pool.escape(keyword)}%' `);
+      wheres.push(` a.keywords like '%${keyword}%' `);
     }
 
     if(keyword) {
-      wheres.push(` a.keywords like '%${pool.escape(keyword)}%' `);
+      wheres.push(` a.keywords like '%${keyword}%' `);
     }
     if (columns) {
       wheres.push(` b.columns = ${pool.escape(columns)} `);

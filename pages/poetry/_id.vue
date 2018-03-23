@@ -62,7 +62,7 @@ export default {
           for (let p of poetryList) {
             p.pinyin = utils.trans(p.words || '').split(/[\s|，|。|“|”|、|＿|？|：|)|(]|《|》|！|；/);
             p.fantis = utils.tranFanti(p.words || '');
-            allDesc += p.desc;
+            allDesc += p.desc || '';
           }
           res.data.poetry.titlePinyin = utils.trans(res.data.poetry.title || '');
           res.data.poetry.keywords = res.data.poetry.keywords == '' ? [] : res.data.poetry.keywords.split(",");

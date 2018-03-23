@@ -57,6 +57,7 @@
         <nuxt-link to="/search/?type=poetry&tag=%e5%8f%a4%e6%96%87%e8%a7%82%e6%ad%a2">古文观止</nuxt-link>
         <nuxt-link to="/search/?type=poetry&tag=%e5%ae%8b%e8%af%8d%e7%b2%be%e9%80%89">宋词精选</nuxt-link>
         <nuxt-link to="/search/?type=poetry&tag=%e8%be%9e%e8%b5%8b%e7%b2%be%e9%80%89">辞赋精选</nuxt-link>
+        <nuxt-link to="/search/?type=poetry&tag=%E7%A2%91%E5%88%BB">碑刻</nuxt-link>
       </div>
       <div class="tags">
         <p>节日</p>
