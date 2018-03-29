@@ -14,7 +14,7 @@ global.logs = function () {
 };
 
 const pool = mysql.createPool(config.mysql);
-const sequelize = new Sequelize('poetry', 'root', 'root', config);
+const sequelize = new Sequelize('poetry', config.user, config.password, config.seq);
 const Poetry = sequelize.import("./server/models/poetry");
 const Author = sequelize.import("./server/models/author");
 const PoetryLine = sequelize.import("./server/models/poetry_line");
