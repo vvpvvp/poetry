@@ -113,13 +113,16 @@ export default {
       id: this.$route.params.id || '',
       tag: this.$route.query.tag,
       type: this.$route.query.type,
-      page: this.$route.query.page,
+      // page: parseInt(this.$route.query.page) || 1,
       rows: this.$route.query.rows,
       columns: this.$route.query.columns,
       size: this.$route.query.size,
     }
   },
   computed: {
+    page() {
+      return parseInt(this.$route.query.page) || 1;
+    },
     query() {
       return this.$route.query;
     },

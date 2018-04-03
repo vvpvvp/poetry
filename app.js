@@ -57,11 +57,10 @@ app.get('/poetry', function (req, res) {
 
   let resFun = () => {
     if (index == 2) {
-      console.log(poetryData)
+      // console.log(poetryData)
       if (poetryData.length == 0) {
         res.json({ status: 403 });
       } else {
-        // log(results);
         res.json({ poetry: poetryData[0], poetryList: poetryLines, status: 200 });
       }
     }
@@ -179,7 +178,7 @@ app.get('/search', function (req, res) {
   let size = req.query.size;
   let columns = req.query.columns;
   let rows = req.query.rows;
-  console.log(req.query);
+  // console.log(req.query);
 
   if (type == 'author') {
     let where = {};
