@@ -45,7 +45,7 @@ server.listen(port);
 
 app.get('/poetry', function (req, res) {
   let id = req.query.id;
-  if (id == undefined) {
+  if (id == undefined || isNaN(id)) {
     res.json({ status: 403 });
   }
   let poetryData = [];
