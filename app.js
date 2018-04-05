@@ -50,6 +50,7 @@ app.get('/poetry', function (req, res) {
   let id = parseInt(req.query.id);
   if (!id || isNaN(id)) {
     res.json({ status: 403 });
+    return;
   }
   let poetryData = [];
   let poetryLines = [];
