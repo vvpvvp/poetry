@@ -2,6 +2,7 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var Sequelize = require('sequelize');
+var mysql = require("mysql");
 var log = require("hey-log");
 var config = require('./server/config/data');
 var chalk = require("chalk");
@@ -12,11 +13,13 @@ global.logs = function () {
   log(chalk.green(...arguments))
 };
 
+const pool = mysql.createPool(config.mysql);
 const sequelize = new Sequelize('poetry', config.user, config.password, config.seq);
-
 const Poetry = sequelize.import("./server/models/poetry");
 const Author = sequelize.import("./server/models/author");
 const PoetryLine = sequelize.import("./server/models/poetry_line");
+const PoetryWords = sequelize.import("./server/models/poetry_words");
+
 
 sequelize
   .authenticate()
@@ -44,8 +47,8 @@ const port = 3002;
 server.listen(port);
 
 app.get('/poetry', function (req, res) {
-  let id = req.query.id;
-  if (id == undefined || isNaN(id)) {
+  let id = parseInt(req.query.id);
+  if (!id || isNaN(id)) {
     res.json({ status: 403 });
   }
   let poetryData = [];
@@ -54,33 +57,57 @@ app.get('/poetry', function (req, res) {
 
   let resFun = () => {
     if (index == 2) {
+      // console.log(poetryData)
       if (poetryData.length == 0) {
         res.json({ status: 403 });
       } else {
-        // log(results);
         res.json({ poetry: poetryData[0], poetryList: poetryLines, status: 200 });
       }
     }
   }
-  Poetry.findAll({
-    where: {
-      id: id
-    }
-  }).then((result) => {
-    index++;
-    poetryData = result;
-    resFun();
-  });
 
-  PoetryLine.findAll({
-    where: {
-      poetry: id
-    }
-  }).then((result) => {
-    index++;
-    poetryLines = result;
-    resFun();
-  });
+  try{
+    pool.query(`select * from poetry where id = ?`, [id], function (error, results, fields) {
+      index++;
+      if(error) {
+        console.log(error)
+        res.json({ status: 500 });
+      }
+      poetryData = results;
+      resFun();
+    })
+    // Poetry.findAll({
+    //   where: {
+    //     id: parseInt(id)
+    //   }
+    // }).then((result) => {
+    //   index++;
+    //   poetryData = result;
+    //   resFun();
+    // });
+
+
+    pool.query(`select * from poetry_line where poetry = ?`, [id], function (error, results, fields) {
+      if(error) {
+        console.log(error)
+        res.json({ status: 500 });
+      }
+      index++;
+      poetryLines = results;
+      resFun();
+    })
+    // PoetryLine.findAll({
+    //   where: {
+    //     poetry: parseInt(id)
+    //   }
+    // }).then((result) => {
+    //   index++;
+    //   poetryLines = result;
+    //   resFun();
+    // });
+  }catch(e) {
+    res.json({ status: 500 });
+  }
 
 });
 
@@ -117,7 +144,7 @@ app.post('/poetry/:id', function (req, res) {
   // console.log(req.body);
   // 创建事务
   sequelize.transaction(function (t) {
-    log(req.body.poetry)
+    // log(req.body.poetry)
     return Poetry.update(req.body.poetry, {'where':{'id':id}}, {transaction:t})
     .then(function(){
       console.log('line')
@@ -144,17 +171,20 @@ app.post('/poetry/:id', function (req, res) {
 
 
 app.get('/search', function (req, res) {
-  let word = req.query.word;
-  console.log(req.query);
+  let words = req.query.word;
   let page = parseInt(req.query.page) || 1;
   let type = req.query.type || 'author';
   let keyword = req.query.keyword;
+  let size = req.query.size;
+  let columns = req.query.columns;
+  let rows = req.query.rows;
+  // console.log(req.query);
 
   if (type == 'author') {
     let where = {};
-    if (word) {
+    if (words) {
       where.name = {
-        $like: `%${word}%`
+        $like: `%${words}%`
       }
     }
     if (req.query.dynasty) {
@@ -175,44 +205,100 @@ app.get('/search', function (req, res) {
       res.json({ datas: authorData, status: 200 });
     });
   } else {
-    let where = {};
-    let hasWhere = false;
-    let $or = [];
-    if (word) {
-      hasWhere = true;
-      $or.push({
-        title: {
-          $like: `%${word}%`
-        }
-      });
-      
-      $or.push({
-        description: {
-          $like: `%${word}%`
-        }
-      });
+    let sql = 'select a.*, b.words words from poetry a, poetry_words b where a.id = b.id '
+    let wheres = [];
+    if(words) {
+      wheres.push(`( a.title like '%${words}%' or b.words like '%${words}%' )`);
     }
-    if (keyword) {
-      hasWhere = true;
-      $or.push({
-        keywords: {
-          $like: `%${keyword}%`
-        }
-      });
+    if(keyword) {
+      wheres.push(` a.keywords like '%${keyword}%' `);
     }
-    if ($or.length) where.$or = $or;
+
+    if(keyword) {
+      wheres.push(` a.keywords like '%${keyword}%' `);
+    }
+    if (columns) {
+      wheres.push(` b.columns = ${pool.escape(columns)} `);
+    }
+    if(columns && rows) {
+      size = columns * rows;
+    }
+    if (size) {
+      wheres.push(` b.size = ${pool.escape(size)} `);
+    }
+    // if ($or.length) where.$or = $or;
     if (req.query.dynasty) {
-      hasWhere = true;
-      where.dynasty = req.query.dynasty
+      wheres.push(` a.dynasty = ${pool.escape(req.query.dynasty)} `);
     }
-    Poetry.findAll({
-      where: hasWhere ? where : null,
-      offset: (page - 1) * 20,
-      limit: 20
-    }).then((result) => {
-      poetryData = result;
-      res.json({ datas: poetryData, status: 200 });
-    });
+
+    wheres = wheres.join(' and ');
+    if(wheres) {
+      sql += ' and ' + wheres;
+    }
+    
+    sql += ` limit ${(page-1) * 20}, 20`;
+    console.log(sql)
+    try{
+      pool.query(sql, function(error, results, fields) {
+        if (error) res.json({ status: 500 });
+        // log(results)
+        res.json({ datas: results, status: 200 });
+      });
+    }catch(e) {
+      res.json({ status: 500 });
+    }
+    
+    // let where = {};
+    // let hasWhere = false;
+    // let $or = [];
+    // let rwhere = {id: Sequelize.col('poetry.id')}
+    // if (word) {
+    //   hasWhere = true;
+    //   $or.push({
+    //     title: {
+    //       $like: `%${word}%`
+    //     }
+    //   });
+      
+    //   rwhere.words = {
+    //     $like: `%${word}%`
+    //   }
+    //   // $or.push({
+    //   //   description: {
+    //   //     $like: `%${word}%`
+    //   //   }
+    //   // });
+    // }
+    // if (keyword) {
+    //   $or.push({
+    //     keywords: {
+    //       $like: `%${keyword}%`
+    //     }
+    //   });
+    // }
+    // if (size) {
+    //   rwhere.size = size;
+    // }
+    // if(columns) {
+    //   rwhere.columns = columns;
+    // }
+    // if ($or.length) where.$or = $or;
+    // if (req.query.dynasty) {
+    //   hasWhere = true;
+    //   where.dynasty = req.query.dynasty
+    // }
+    // Poetry.findAll({
+    //   where: hasWhere ? where : null,
+    //   offset: (page - 1) * 20,
+    //   limit: 20,
+    //   include: [{
+    //     model: PoetryWords,
+    //     where: rwhere
+    //   }]
+    // }).then((result) => {
+    //   poetryData = result;
+    //   res.json({ datas: poetryData, status: 200 });
+    // });
   }
 });
 

@@ -1,3 +1,11 @@
+@primary-color: #da6b6a;
+
+.link{
+    cursor: pointer;
+    &:hover{
+        color: @primary-color;
+    }
+}
 .poetry-vue {
     margin: 40px 10%;
     font-family: cursive;
@@ -25,7 +33,7 @@
             background-color: #d6d6d6;
         }
         &.selected {
-            background-color: #da6b6a;
+            background-color: @primary-color;
             color: #FFF;
         }
     }
@@ -76,6 +84,9 @@
         margin: 20px 0px 5px;
         font-size: 22px;
         color: #565656;
+        &.single-line {
+          letter-spacing: 3px;
+        }
         >span {
             display: inline-block;
             text-align: center;
@@ -129,7 +140,7 @@ a {
 .main-vue {
     .header {
         padding: 15px 10%;
-        background: #da6b6a;
+        background: @primary-color;
         a {
             color: #fff;
             margin-right: 35px;
