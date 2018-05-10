@@ -34,6 +34,7 @@ const initRouter = ()=>{
     // Vue.nextTick(() => {
     //   $('.app-body').scrollTop(0);
     // });
+    window._hmt.push(['_trackPageview', window.location.pathname]);
   });
   return router;
 }
