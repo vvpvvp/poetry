@@ -13,6 +13,9 @@ module.exports = {
   css: [
     { src: 'static/css/main.less', lang: 'less' }
   ],
+  plugins: [
+    { src: 'src/js/ga.js', ssr: false }
+  ],
   build: {
     extractCSS: true
   },
