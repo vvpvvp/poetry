@@ -43,6 +43,7 @@ export default {
         error({ statusCode: 404, message: 'Not found' })
       })
   },
+  name: 'poetryId',
   data(){
     return {
       load: false

@@ -27,6 +27,7 @@ import axios from 'axios';
 import location from '../../src/js/location';
 
 export default {
+  name: 'authorall',
   transition: 'bounce',
   asyncData({ params, error }) {
     return axios.get(`${location()}/author?id=${params.id}&&size=5000`)

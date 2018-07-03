@@ -93,6 +93,7 @@ export default {
       error({ statusCode: 404, message: 'Not found' })
     })
   },
+  name: 'search',
   data() {
     return {
       dynastys: [

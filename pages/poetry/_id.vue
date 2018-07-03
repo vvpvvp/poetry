@@ -75,6 +75,7 @@ export default {
         error({ statusCode: 404, message: 'Not found' })
       })
   },
+  name: 'poetry',
   data() {
     return {
       load: false,

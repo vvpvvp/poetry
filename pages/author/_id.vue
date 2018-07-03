@@ -44,6 +44,7 @@ export default {
         error({ statusCode: 404, message: 'Post not found' })
       })
   },
+  name: 'author',
   head() {
     return {
       title: this.author.name
