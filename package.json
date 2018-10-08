@@ -8,7 +8,8 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "data": "base ./server/config/data.sh"
+    "data": "base ./server/config/data.sh",
+    "serve": "node --max-old-space-size=3072 ./serve.js"
   },
   "author": "",
   "license": "ISC",
