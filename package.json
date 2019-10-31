@@ -27,7 +27,7 @@
     "mysql2": "^1.6.1",
     "node-less": "^1.0.0",
     "nuxt": "^2.7.1",
-    "sequelize": "^4.39.0",
+    "sequelize": "^5.15.1",
     "vue-style-loader": "^3.0.1"
   },
   "config": {
